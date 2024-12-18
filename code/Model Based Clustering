@@ -1,0 +1,29 @@
+#Model Based Clustering
+
+library(ggplot2)
+library(factoextra)
+library(mclust)
+
+vienna_listings <- read.csv("C:/Users/Honest/Downloads/vienna_listings_no_outliers.csv")
+
+library(robustbase)
+
+vienna_listings_final <- vienna_listings[,c(3,21)]
+vienna_listings_final <-scale(vienna_listings_final)
+set.seed(200)
+vienna_clus <- vienna_listings_final[sample(nrow(vienna_listings_final), 200), ]
+
+
+mc <- Mclust(vienna_clus)
+
+
+summary(mc)
+
+
+# BIC values used for choosing the number of clusters
+fviz_mclust(mc, "BIC", palette = "jco")
+# Classification: plot showing the clustering
+fviz_mclust(mc, "classification", geom = "point", 
+            pointsize = 1.5, palette = "jco")
+# Classification uncertainty
+fviz_mclust(mc, "uncertainty", palette = "jco")
